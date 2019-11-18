@@ -30,5 +30,22 @@
 				</tr>
 			</t>
 		</xpath>
+
+        <xpath expr="//span[@t-field='line.price_unit']" position="attributes">
+            <attribute name="t-if" add="not current_section or current_section.show_line_amount" separator=" and "/>
+        </xpath>
+        <xpath expr="//span[@t-field='line.discount']" position="attributes">
+            <attribute name="t-if" add="not current_section or current_section.show_line_amount" separator=" and "/>
+        </xpath>
+        <xpath expr="//span[@t-field='line.price_subtotal']" position="attributes">
+            <attribute name="t-if" add="not current_section or current_section.show_line_amount" separator=" and "/>
+        </xpath>
+        <xpath expr="//span[@t-field='line.price_total']" position="attributes">
+            <attribute name="t-if" add="not current_section or current_section.show_line_amount" separator=" and "/>
+        </xpath>
+        <xpath expr="//span[@id='line_tax_ids']" position="attributes">
+            <attribute name="t-if" add="not current_section or current_section.show_line_amount" separator=" and "/>
+        </xpath>
+
     </template>
 </odoo>
