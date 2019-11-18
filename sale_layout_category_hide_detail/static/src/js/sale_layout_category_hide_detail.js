@@ -4,8 +4,7 @@
 odoo.define('sale_layout_category_hide_detail.sale_layout_category_hide_detail', function (require) {
     "use strict";
 
-    var fieldRegistry = require('web.field_registry');
-    var section_and_note_one2many = fieldRegistry.get('section_and_note_one2many');
+    var sectionAndNoteListRenderer = require('account.section_and_note_backend');
 
     var SectionAndNoteListRenderer = {
         _renderBodyCell: function (record, node, index, options) {
@@ -53,13 +52,6 @@ odoo.define('sale_layout_category_hide_detail.sale_layout_category_hide_detail',
         },
     };
 
-    section_and_note_one2many.include({
-        _getRenderer: function () {
-            var result = this._super.apply(this, arguments);
-            if (this.view.arch.tag === 'tree') {
-                result.include(SectionAndNoteListRenderer)
-            }
-            return result
-        },
-    });
+    sectionAndNoteListRenderer.include(SectionAndNoteListRenderer);
+
 });
