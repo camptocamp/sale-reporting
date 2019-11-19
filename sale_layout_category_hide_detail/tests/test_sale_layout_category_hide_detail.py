@@ -26,13 +26,13 @@ class TestSaleLayoutCategoryHideDetail(common.SavepointCase):
         cls.sale_order.action_confirm()
 
     def test_prepare_invoice_line(self):
-        res = self.so_line._prepare_invoice_line(10)
+        res = self.so_line._prepare_invoice_line()
         self.assertEquals(res['quantity'], 10)
         self.assertEquals(res['product_id'], self.product.id)
         self.assertEquals(res['show_details'], True)
         self.assertEquals(res['show_subtotal'], True)
         self.so_line.write({'show_details': False, 'show_subtotal': False})
-        res = self.so_line._prepare_invoice_line(10)
+        res = self.so_line._prepare_invoice_line()
         self.assertEquals(res['quantity'], 10)
         self.assertEquals(res['product_id'], self.product.id)
         self.assertEquals(res['show_details'], False)
@@ -40,18 +40,6 @@ class TestSaleLayoutCategoryHideDetail(common.SavepointCase):
 
     def test_create_invoices(self):
         self.so_line.write({'show_details': False, 'show_subtotal': False})
-        # Create invoice from self.sale_order
-        context = {
-            "active_model": 'sale.order',
-            "active_ids": [self.sale_order.id],
-            "active_id": self.sale_order.id,
-            "open_invoices": True,
-        }
-        payment = self.env['sale.advance.payment.inv'].create(
-            {'advance_payment_method': 'all'}
-        )
-        action_invoice = payment.with_context(context).create_invoices()
-        invoice_id = action_invoice['res_id']
-        invoice = self.env['account.invoice'].browse(invoice_id)
+        invoice = self.sale_order._create_invoices()
         self.assertEquals(invoice.invoice_line_ids.show_details, False)
         self.assertEquals(invoice.invoice_line_ids.show_subtotal, False)
