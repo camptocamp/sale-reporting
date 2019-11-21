@@ -12,7 +12,5 @@ class SaleOrderLine(models.Model):
 
     def _prepare_invoice_line(self):
         res = super()._prepare_invoice_line()
-        res.update(
-            show_details=self.show_details, show_subtotal=self.show_subtotal
-        )
+        res.update(show_details=self.show_details, show_subtotal=self.show_subtotal)
         return res

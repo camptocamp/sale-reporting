@@ -12,9 +12,7 @@ class TestSaleLayoutCategoryHideDetail(common.SavepointCase):
             {"name": "Producto test", "type": "consu"}
         )
         cls.partner = cls.env["res.partner"].create({"name": "partner_test"})
-        cls.sale_order = cls.env["sale.order"].create(
-            {"partner_id": cls.partner.id}
-        )
+        cls.sale_order = cls.env["sale.order"].create({"partner_id": cls.partner.id})
         cls.so_line = cls.env["sale.order.line"].create(
             {
                 "order_id": cls.sale_order.id,
