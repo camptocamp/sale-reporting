@@ -8,18 +8,18 @@ class TestSaleLayoutCategoryHideDetail(common.SavepointCase):
     @classmethod
     def setUpClass(cls):
         super(TestSaleLayoutCategoryHideDetail, cls).setUpClass()
-        cls.product = cls.env['product.product'].create(
-            {'name': 'Producto test', 'type': 'consu'}
+        cls.product = cls.env["product.product"].create(
+            {"name": "Producto test", "type": "consu"}
         )
-        cls.partner = cls.env['res.partner'].create({'name': 'partner_test'})
-        cls.sale_order = cls.env['sale.order'].create(
-            {'partner_id': cls.partner.id}
+        cls.partner = cls.env["res.partner"].create({"name": "partner_test"})
+        cls.sale_order = cls.env["sale.order"].create(
+            {"partner_id": cls.partner.id}
         )
-        cls.so_line = cls.env['sale.order.line'].create(
+        cls.so_line = cls.env["sale.order.line"].create(
             {
-                'order_id': cls.sale_order.id,
-                'product_id': cls.product.id,
-                'product_uom_qty': 10,
+                "order_id": cls.sale_order.id,
+                "product_id": cls.product.id,
+                "product_uom_qty": 10,
             }
         )
         cls.so_line.product_id_change()
@@ -27,19 +27,19 @@ class TestSaleLayoutCategoryHideDetail(common.SavepointCase):
 
     def test_prepare_invoice_line(self):
         res = self.so_line._prepare_invoice_line()
-        self.assertEquals(res['quantity'], 10)
-        self.assertEquals(res['product_id'], self.product.id)
-        self.assertEquals(res['show_details'], True)
-        self.assertEquals(res['show_subtotal'], True)
-        self.so_line.write({'show_details': False, 'show_subtotal': False})
+        self.assertEquals(res["quantity"], 10)
+        self.assertEquals(res["product_id"], self.product.id)
+        self.assertEquals(res["show_details"], True)
+        self.assertEquals(res["show_subtotal"], True)
+        self.so_line.write({"show_details": False, "show_subtotal": False})
         res = self.so_line._prepare_invoice_line()
-        self.assertEquals(res['quantity'], 10)
-        self.assertEquals(res['product_id'], self.product.id)
-        self.assertEquals(res['show_details'], False)
-        self.assertEquals(res['show_subtotal'], False)
+        self.assertEquals(res["quantity"], 10)
+        self.assertEquals(res["product_id"], self.product.id)
+        self.assertEquals(res["show_details"], False)
+        self.assertEquals(res["show_subtotal"], False)
 
     def test_create_invoices(self):
-        self.so_line.write({'show_details': False, 'show_subtotal': False})
+        self.so_line.write({"show_details": False, "show_subtotal": False})
         invoice = self.sale_order._create_invoices()
         self.assertEquals(invoice.invoice_line_ids.show_details, False)
         self.assertEquals(invoice.invoice_line_ids.show_subtotal, False)
