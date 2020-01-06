@@ -8,7 +8,7 @@
     "author": "Camptocamp,Odoo Community Association (OCA)",
     "category": "Sale",
     "website": "http://github.com/OCA/sale-reporting",
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     "depends": ["sale_management"],
     "data": ["views/sale_order.xml", "report/sale_report_template.xml"],
 }
