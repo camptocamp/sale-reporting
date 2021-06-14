@@ -16,7 +16,7 @@
                 expr="//field[@name='order_line']//tree//field[@name='sequence']"
                 position="after"
             >
-              <field name="position" string="#" force_save="1" optional="hide" />
+              <field name="position" string="Pos" force_save="1" optional="hide" />
             </xpath>
         </field>
     </record>
