@@ -26,7 +26,3 @@ class SaleOrder(models.Model):
         lines.sorted(key=lambda x: x.sequence)
         for position, line in enumerate(lines, start=1):
             line.position = position
-
-    def _get_next_position_number(self):
-        lines = self.order_line.filtered(lambda x: not x.display_type)
-        return len(lines) + 1
