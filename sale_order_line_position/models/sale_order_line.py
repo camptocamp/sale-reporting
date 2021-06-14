@@ -4,30 +4,6 @@
 from odoo import api, fields, models
 
 
-class SaleOrder(models.Model):
-    _inherit = "sale.order"
-
-    locked_positions = fields.Boolean(compute="_compute_locked_positions")
-
-    @api.depends("state")
-    def _compute_locked_positions(self):
-        for record in self:
-            record.locked_positions = record.state != "draft"
-
-    def recompute_position(self):
-        self.ensure_one()
-        if self.locked_positions:
-            return
-        lines = self.order_line.filtered(lambda l: not l.display_type)
-        lines.sorted(key=lambda x: x.sequence)
-        for position, line in enumerate(lines, start=1):
-            line.position = position
-
-    def _get_next_position_number(self):
-        lines = self.order_line.filtered(lambda x: not x.display_type)
-        return len(lines) + 1
-
-
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
@@ -41,7 +17,7 @@ class SaleOrderLine(models.Model):
 
     @api.onchange("sequence")
     def _onchange_sequence(self):
-        if not self.order_id.locked_positions:
+        if self.order_id.locked_positions:
             return
         lines = self.order_id.order_line.filtered(
             lambda x: not x.display_type and x.sequence < self.sequence
