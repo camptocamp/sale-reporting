@@ -1,0 +1,6 @@
+<odoo>
+    <record id="group_currency_id" model="ir.config_parameter">
+        <field name="key">base_group_currency.group_currency_id</field>
+        <field name="value" ref="base.EUR" />
+    </record>
+</odoo>
