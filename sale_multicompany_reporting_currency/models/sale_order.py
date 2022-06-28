@@ -64,8 +64,13 @@ class SaleOrder(models.Model):
     @api.depends("amount_total", "currency_rate", "multicompany_reporting_currency_id")
     def _compute_amount_multicompany_reporting_currency(self):
         for record in self:
+            reporting_amount = (
+                record.amount_total
+                if (record.company_id.amount_option == "total")
+                else record.amount_untaxed
+            )
             if record.currency_id == record.multicompany_reporting_currency_id:
-                to_amount = record.amount_total
+                to_amount = reporting_amount
             else:
-                to_amount = record.amount_total / record.currency_rate
+                to_amount = reporting_amount / record.currency_rate
             record.amount_multicompany_reporting_currency = to_amount
