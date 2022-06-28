@@ -9,6 +9,9 @@
     "license": "AGPL-3",
     "depends": ["sale", "base_multicompany_reporting_currency"],
     "website": "https://github.com/OCA/sale-reporting",
-    "data": ["views/sale_order_views.xml"],
+    "data": [
+        "views/res_config_settings_views.xml",
+        "views/sale_order_views.xml",
+    ],
     "installable": True,
 }

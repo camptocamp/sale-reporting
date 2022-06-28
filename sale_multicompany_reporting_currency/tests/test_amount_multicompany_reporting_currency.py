@@ -41,6 +41,12 @@ class TestAmountMulticompanyReportingCurrency(TestSaleCommon):
                 "company_id": cls.env.company.id,
             }
         )
+        cls.tax = cls.env["account.tax"].create(
+            {
+                "name": "Tax with price include",
+                "amount": 10,
+            }
+        )
 
     def test_amount_multicompany_reporting_currency(self):
         # Order currency is in EUR, Amount Multicompany Reporting Currency is CHF
@@ -62,7 +68,10 @@ class TestAmountMulticompanyReportingCurrency(TestSaleCommon):
         self.assertEqual(self.sale_order.amount_multicompany_reporting_currency, 1010)
         # Order currency is in EUR, Amount Multicompany Reporting Currency is EUR
         self.env["res.config.settings"].create(
-            {"multicompany_reporting_currency": self.currency_euro_id}
+            {
+                "multicompany_reporting_currency": self.currency_euro_id,
+                "amount_option": "untaxed",
+            }
         ).execute()
         self.sol_serv_deliver = self.env["sale.order.line"].create(
             {
@@ -72,10 +81,16 @@ class TestAmountMulticompanyReportingCurrency(TestSaleCommon):
                 "product_uom": self.company_data["product_service_delivery"].uom_id.id,
                 "price_unit": 750,
                 "order_id": self.sale_order.id,
-                "tax_id": False,
+                "tax_id": [(4, self.tax.id)],
             }
         )
+        # amount_multicompany_reporting_currency is computed with amount_untaxed
         self.assertEqual(self.sale_order.amount_multicompany_reporting_currency, 1750)
+        # check to be sure amount_multicompany_reporting_currency
+        # would have another value if amount_option is total
+        self.assertEqual(
+            self.sale_order.amount_total / self.sale_order.currency_rate, 1825
+        )
         # if we remove Currency from Sale Order we expect currency_rate to be 1.0
         self.sale_order.currency_id = False
         self.sol_product_order.price_unit = 250
