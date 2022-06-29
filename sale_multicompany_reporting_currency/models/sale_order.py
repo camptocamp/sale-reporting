@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 from odoo import api, fields, models
+from odoo.tools import float_is_zero
 
 
 class SaleOrder(models.Model):
@@ -69,7 +70,14 @@ class SaleOrder(models.Model):
                 if (record.company_id.amount_option == "total")
                 else record.amount_untaxed
             )
-            if record.currency_id == record.multicompany_reporting_currency_id:
+            if (
+                record.currency_id == record.multicompany_reporting_currency_id
+            ) or float_is_zero(
+                record.currency_rate,
+                precision_rounding=(
+                    record.currency_id or self.env.company.currency_id
+                ).rounding,
+            ):
                 to_amount = reporting_amount
             else:
                 to_amount = reporting_amount / record.currency_rate
