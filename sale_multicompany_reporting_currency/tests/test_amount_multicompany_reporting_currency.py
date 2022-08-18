@@ -89,9 +89,12 @@ class TestAmountMulticompanyReportingCurrency(TestSaleCommon):
         # check to be sure amount_multicompany_reporting_currency
         # would have another value if amount_option is total
         self.assertEqual(
-            self.sale_order.amount_total / self.sale_order.currency_rate, 1825
+            self.sale_order.amount_total
+            / self.sale_order.multicompany_reporting_currency_rate,
+            1825,
         )
-        # if we remove Currency from Sale Order we expect currency_rate to be 1.0
+        # if we remove Currency from Sale Order we expect
+        # multicompany_reporting_currency_rate to be 1.0
         self.sale_order.currency_id = False
         self.sol_product_order.price_unit = 250
         self.sol_serv_deliver.price_unit = 100

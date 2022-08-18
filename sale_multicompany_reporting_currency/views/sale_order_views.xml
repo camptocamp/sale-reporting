@@ -6,7 +6,9 @@
         <field name="inherit_id" ref="sale.view_order_tree" />
         <field name="arch" type="xml">
             <field name="amount_total" position="after">
-                <field name='multicompany_reporting_currency_id' invisible="1" />
+                <field name="multicompany_reporting_currency_id" invisible="1" />
+                <field name="currency_rate" optional="hide" />
+                <field name="multicompany_reporting_currency_rate" optional="hide" />
                 <field
                     name="amount_multicompany_reporting_currency"
                     sum="Total"
@@ -23,10 +25,13 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
+            <field name="currency_id" position="after">
+                <field name="multicompany_reporting_currency_rate" />
+            </field>
             <xpath expr="//field[@name='tax_totals_json']" position="after">
                 <label for="amount_multicompany_reporting_currency" />
                 <div class="text-nowrap">
-                    <field name='multicompany_reporting_currency_id' invisible="1" />
+                    <field name="multicompany_reporting_currency_id" invisible="1" />
                     <field
                         name="amount_multicompany_reporting_currency"
                         string="Total (Multicompany Reporting Currency)"
@@ -44,7 +49,9 @@
         <field name="inherit_id" ref="sale.view_quotation_tree" />
         <field name="arch" type="xml">
             <field name="amount_total" position="after">
-                <field name='multicompany_reporting_currency_id' invisible="1" />
+                <field name="multicompany_reporting_currency_id" invisible="1" />
+                <field name="currency_rate" optional="hide" />
+                <field name="multicompany_reporting_currency_rate" optional="hide" />
                 <field
                     name="amount_multicompany_reporting_currency"
                     sum="Total"
