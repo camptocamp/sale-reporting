@@ -28,7 +28,7 @@ class TestAmountMulticompanyReportingCurrency(TestSaleCommon):
         cls.env["res.currency.rate"].create(
             {
                 "name": fields.Date.today(),
-                "rate": 1.01,
+                "rate": 0.98,
                 "currency_id": cls.currency_swiss_id,
                 "company_id": cls.env.company.id,
             }
@@ -65,7 +65,9 @@ class TestAmountMulticompanyReportingCurrency(TestSaleCommon):
                 "tax_id": False,
             }
         )
-        self.assertEqual(self.sale_order.amount_multicompany_reporting_currency, 1010)
+        self.assertEqual(
+            self.sale_order.amount_multicompany_reporting_currency, 1020.41
+        )
         # Order currency is in EUR, Amount Multicompany Reporting Currency is EUR
         self.env["res.config.settings"].create(
             {
