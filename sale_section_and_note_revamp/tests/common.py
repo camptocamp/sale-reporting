@@ -102,5 +102,3 @@ class TestDisplayLineMixinCommon(TestSaleCommon):
                 "name": "Sample Note 2",
             }
         )
-        # We need to force a write to process sectiosn and notes
-        self.sale_order.write({})
