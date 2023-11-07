@@ -45,3 +45,33 @@ class TestDisplayLineMixin(TestDisplayLineMixinCommon):
     def test_07_inject_sections_and_notes(self):
         with self.assertRaises(NotImplementedError):
             self.sol_product_order.inject_sections_and_notes()
+
+    def _assert_previous_next_line(self, order):
+        sorted_lines = order.order_line.sorted()
+        for i, sol in enumerate(sorted_lines):
+            if i == 0:
+                self.assertFalse(sol.previous_line_id)
+                self.assertEqual(sol.next_line_id, sorted_lines[i + 1])
+            elif i == len(order.order_line) - 1:
+                self.assertEqual(sol.previous_line_id, sorted_lines[i - 1])
+                self.assertFalse(sol.next_line_id)
+            else:
+                self.assertEqual(sol.previous_line_id, sorted_lines[i - 1])
+                self.assertEqual(sol.next_line_id, sorted_lines[i + 1])
+
+    def test_08_previous_next_line_calculation(self):
+        self._assert_previous_next_line(self.sale_order)
+        # Switch first and second lines
+        first_line = self.sale_order.order_line[0]
+        second_line = self.sale_order.order_line[1]
+        first_line_sequence = first_line.sequence
+        first_line.sequence = second_line.sequence
+        second_line.sequence = first_line_sequence
+        self._assert_previous_next_line(self.sale_order)
+        # Switch last and penultimate lines
+        last_line = self.sale_order.order_line[-1]
+        penultimate_line = self.sale_order.order_line[-2]
+        last_line_sequence = last_line.sequence
+        last_line_sequence = penultimate_line.sequence
+        penultimate_line.sequence = last_line_sequence
+        self._assert_previous_next_line(self.sale_order)
