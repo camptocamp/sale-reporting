@@ -87,6 +87,7 @@ of sections and notes to any model in relation with a sale order line"""
             if next_record.is_section():
                 break
             if not without_notes and next_record.is_note():
+                next_record = next_record.next_line_id
                 continue
             result |= next_record
             next_record = next_record.next_line_id
