@@ -132,7 +132,7 @@ of sections and notes to any model in relation with a sale order line"""
         """This method inject all related display lines to the right position
         for the inheriting model
 
-        See sale.order::compute_order_lines_dependency for further explanations
+        See sale.order::calc_order_lines_dependencies for further explanations
         """
         model_name = self._name
 
