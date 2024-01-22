@@ -75,3 +75,17 @@ class TestDisplayLineMixin(TestDisplayLineMixinCommon):
         last_line_sequence = penultimate_line.sequence
         penultimate_line.sequence = last_line_sequence
         self._assert_previous_next_line(self.sale_order)
+
+    def test_09_insert_new_line_after(self):
+        # sale order lines ordered before modification
+        # sale_order_lines_before = self.sale_order.order_line.sorted("sequence")
+        first_line = self.sale_order.order_line[0]
+        second_line = self.sale_order.order_line[1]
+        third_line = self.sale_order.order_line[2]
+        penultimate_line = self.sale_order.order_line[-2]
+        self.assertEqual(first_line.next_line_id, second_line.previous_line_id)
+
+        # we move the second line after the penultimate line
+        penultimate_line.add_line(second_line)
+        self.assertEqual(penultimate_line.next_line_id, second_line)
+        self.assertEqual(first_line.next_line_id, third_line)
