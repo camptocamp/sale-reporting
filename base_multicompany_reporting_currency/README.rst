@@ -45,13 +45,13 @@ but with a predefined currency.
 
 This module adds:
 
--  a setting in General Settings to set multicompany reporting currency
-   which be applied to all companies
--  a system parameter to store the chosen multicompany reporting
-   currency DB-wide
--  a mixin model to inherit for handling all basic operations - eg:
-   automatically update the multicompany reporting currency on a model's
-   records when the settings change
+- a setting in General Settings to set multicompany reporting currency
+  which be applied to all companies
+- a system parameter to store the chosen multicompany reporting currency
+  DB-wide
+- a mixin model to inherit for handling all basic operations - eg:
+  automatically update the multicompany reporting currency on a model's
+  records when the settings change
 
 Multicompany reporting currency field will be used in other dependent
 modules to compare amounts in different companies and documents.
@@ -89,14 +89,14 @@ Authors
 Contributors
 ------------
 
--  [Camptocamp SA](https://www.camptocamp.com):
+- [Camptocamp SA](https://www.camptocamp.com):
 
-   -  Maksym Yankin <maksym.yankin@camptocamp.com>
-   -  Silvio Gregorini <silvio.gregorini@camptocamp.com>
+  - Maksym Yankin <maksym.yankin@camptocamp.com>
+  - Silvio Gregorini <silvio.gregorini@camptocamp.com>
 
--  [APSL-Nagarro](https://apsl.tech):
+- [APSL-Nagarro](https://apsl.tech):
 
-   -  Antoni Marroig <amarroig@apsl.net>
+  - Antoni Marroig <amarroig@apsl.net>
 
 Maintainers
 -----------

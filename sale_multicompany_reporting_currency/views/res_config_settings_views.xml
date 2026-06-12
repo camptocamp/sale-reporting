@@ -9,8 +9,7 @@
                 position="inside"
             >
                 <div class="col-12 col-lg-6 o_setting_box" id="amount_option_setting">
-                    <div class="o_setting_left_pane">
-                    </div>
+                    <div class="o_setting_left_pane" />
                     <div class="o_setting_right_pane">
                         <label for="amount_option" />
                         <span
@@ -36,5 +35,4 @@
             </xpath>
         </field>
     </record>
-
 </odoo>
