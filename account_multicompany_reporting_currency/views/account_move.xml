@@ -8,7 +8,7 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_invoice_tree" />
         <field name="arch" type="xml">
-            <field name="amount_total_signed" position="after">
+            <field name="amount_total_in_currency_signed" position="after">
                 <field name="multicompany_reporting_currency_id" invisible="1" />
                 <field name="multicompany_reporting_currency_rate" optional="hide" />
                 <field

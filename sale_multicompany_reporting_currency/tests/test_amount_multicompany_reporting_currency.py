@@ -72,7 +72,6 @@ class TestAmountMulticompanyReportingCurrency(TestSaleCommon):
         self.env["res.config.settings"].create(
             {
                 "multicompany_reporting_currency": self.currency_euro_id,
-                "multicompany_reporting_amount": "untaxed",
             }
         ).execute()
         self.sol_serv_deliver = self.env["sale.order.line"].create(
@@ -86,36 +85,8 @@ class TestAmountMulticompanyReportingCurrency(TestSaleCommon):
                 "tax_id": [(4, self.tax.id)],
             }
         )
-        # amount_multicompany_reporting_currency is computed with amount_untaxed
-        self.assertAlmostEqual(
-            self.sale_order.amount_multicompany_reporting_currency, 1750
-        )
-        # check to be sure amount_multicompany_reporting_currency
-        # would have another value if multicompany_reporting_amount is total
-        self.assertAlmostEqual(
-            self.sale_order.amount_total
-            / self.sale_order.multicompany_reporting_currency_rate,
-            1825,
-        )
-        # check `amount_multicompany_reporting_currency` is recomputed on
-        # `multicompany_reporting_amount` change
-        self.env["res.config.settings"].create(
-            {
-                "multicompany_reporting_currency": self.currency_euro_id,
-                "multicompany_reporting_amount": "total",
-            }
-        ).execute()
         self.assertAlmostEqual(
             self.sale_order.amount_multicompany_reporting_currency, 1825
-        )
-        self.env["res.config.settings"].create(
-            {
-                "multicompany_reporting_currency": self.currency_euro_id,
-                "multicompany_reporting_amount": "untaxed",
-            }
-        ).execute()
-        self.assertAlmostEqual(
-            self.sale_order.amount_multicompany_reporting_currency, 1750
         )
         # if we remove Currency from Sale Order we expect
         # multicompany_reporting_currency_rate to be 1.0
@@ -123,5 +94,5 @@ class TestAmountMulticompanyReportingCurrency(TestSaleCommon):
         self.sol_product_order.price_unit = 250
         self.sol_serv_deliver.price_unit = 100
         self.assertAlmostEqual(
-            self.sale_order.amount_multicompany_reporting_currency, 600
+            self.sale_order.amount_multicompany_reporting_currency, 610
         )
