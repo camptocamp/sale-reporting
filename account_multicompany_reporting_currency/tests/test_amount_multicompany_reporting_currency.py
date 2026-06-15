@@ -59,11 +59,9 @@ class TestAmountMulticompanyReportingCurrency(AccountTestInvoicingCommon):
 
     def test_amount_multicompany_reporting_currency(self):
         # Move currency is in EUR, Amount Multicompany Reporting Currency is CHF
-        # Total amount used for reporting
         self.env["res.config.settings"].create(
             {
                 "multicompany_reporting_currency": self.currency_swiss.id,
-                "multicompany_reporting_amount": "total",
             }
         ).execute()
 
@@ -71,33 +69,10 @@ class TestAmountMulticompanyReportingCurrency(AccountTestInvoicingCommon):
             self.invoice.amount_multicompany_reporting_currency, 1104.18
         )
 
-        # Untaxed amount used for reporting
-        self.env["res.config.settings"].create(
-            {
-                "multicompany_reporting_amount": "untaxed",
-            }
-        ).execute()
-
-        self.assertAlmostEqual(
-            self.invoice.amount_multicompany_reporting_currency, 1003.8
-        )
-
         # Switch reporting currency to EUR (same than move)
         self.env["res.config.settings"].create(
             {
                 "multicompany_reporting_currency": self.currency_euro.id,
-                "multicompany_reporting_amount": "untaxed",
-            }
-        ).execute()
-
-        self.assertAlmostEqual(
-            self.invoice.amount_multicompany_reporting_currency, 1000
-        )
-
-        # Switch to total amount used for reporting
-        self.env["res.config.settings"].create(
-            {
-                "multicompany_reporting_amount": "total",
             }
         ).execute()
 
