@@ -86,7 +86,7 @@ class TestAmountMulticompanyReportingCurrency(TestSaleCommon):
             }
         )
         self.assertAlmostEqual(
-            1825,
+            self.sale_order.amount_multicompany_reporting_currency, 1825
         )
         # if we remove Currency from Sale Order we expect
         # multicompany_reporting_currency_rate to be 1.0
