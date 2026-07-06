@@ -17,41 +17,9 @@ msgstr ""
 "X-Generator: Weblate 4.17\n"
 
 #. module: sale_multicompany_reporting_currency
-#: model_terms:ir.ui.view,arch_db:sale_multicompany_reporting_currency.res_config_settings_view_form
-msgid ""
-"<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
-"specific.\" aria-label=\"Values set here are company-specific.\" "
-"groups=\"base.group_multi_company\"/>"
-msgstr ""
-"<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
-"specific.\" aria-label=\"Values set here are company-specific.\" groups="
-"\"base.group_multi_company\"/>"
-
-#. module: sale_multicompany_reporting_currency
 #: model:ir.model.fields,field_description:sale_multicompany_reporting_currency.field_sale_order__amount_multicompany_reporting_currency
 msgid "Amount Multicompany Reporting Currency"
 msgstr "Importe Divisa de referencia multicompañía"
-
-#. module: sale_multicompany_reporting_currency
-#: model:ir.model.fields,field_description:sale_multicompany_reporting_currency.field_res_company__amount_option
-#: model:ir.model.fields,field_description:sale_multicompany_reporting_currency.field_res_config_settings__amount_option
-msgid "Amount Option"
-msgstr "Importe Opción"
-
-#. module: sale_multicompany_reporting_currency
-#: model:ir.model.fields.selection,name:sale_multicompany_reporting_currency.selection__res_company__amount_option__total
-msgid "Amount total"
-msgstr "Importe total"
-
-#. module: sale_multicompany_reporting_currency
-#: model:ir.model,name:sale_multicompany_reporting_currency.model_res_company
-msgid "Companies"
-msgstr "Compañías"
-
-#. module: sale_multicompany_reporting_currency
-#: model:ir.model,name:sale_multicompany_reporting_currency.model_res_config_settings
-msgid "Config Settings"
-msgstr "Ajustes Configuración"
 
 #. module: sale_multicompany_reporting_currency
 #: model:ir.model.fields,field_description:sale_multicompany_reporting_currency.field_sale_order__multicompany_reporting_currency_id
@@ -69,13 +37,6 @@ msgid "Sales Order"
 msgstr "Orden de Venta"
 
 #. module: sale_multicompany_reporting_currency
-#: model_terms:ir.ui.view,arch_db:sale_multicompany_reporting_currency.res_config_settings_view_form
-msgid "Set amount to be used for multicompany reporting currency"
-msgstr ""
-"Fijar el importe que se utilizará para la moneda de los informes "
-"multisociedades"
-
-#. module: sale_multicompany_reporting_currency
 #: model_terms:ir.ui.view,arch_db:sale_multicompany_reporting_currency.view_order_tree
 #: model_terms:ir.ui.view,arch_db:sale_multicompany_reporting_currency.view_quotation_tree
 msgid "Total"
@@ -87,8 +48,3 @@ msgstr "Total"
 #: model_terms:ir.ui.view,arch_db:sale_multicompany_reporting_currency.view_quotation_tree
 msgid "Total (Multicompany Reporting Currency)"
 msgstr "Total (Divisa de Referencia de varias compañías)"
-
-#. module: sale_multicompany_reporting_currency
-#: model:ir.model.fields.selection,name:sale_multicompany_reporting_currency.selection__res_company__amount_option__untaxed
-msgid "Untaxed Amount"
-msgstr "Importe no sujeto a impuestos"

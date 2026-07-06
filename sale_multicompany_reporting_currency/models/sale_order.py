@@ -49,13 +49,19 @@ class SaleOrder(models.Model):
                 record.multicompany_reporting_currency_rate = 1.0
 
     @api.depends(
+        "amount_untaxed",
         "amount_total",
+        "company_id.multicompany_reporting_amount",
         "multicompany_reporting_currency_id",
         "multicompany_reporting_currency_rate",
     )
     def _compute_amount_multicompany_reporting_currency(self):
         for record in self:
-            reporting_amount = record.amount_total
+            reporting_amount = (
+                record.amount_total
+                if record.company_id.multicompany_reporting_amount == "total"
+                else record.amount_untaxed
+            )
             if (
                 record.currency_id == record.multicompany_reporting_currency_id
             ) or float_is_zero(

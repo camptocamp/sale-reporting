@@ -21,10 +21,10 @@ class TestAmountMulticompanyReportingCurrency(TestSaleCommon):
                 "partner_id": cls.partner_a.id,
                 "partner_invoice_id": cls.partner_a.id,
                 "partner_shipping_id": cls.partner_a.id,
-                "pricelist_id": cls.company_data["default_pricelist"].id,
+                "pricelist_id": cls.pricelist.id,
             }
         )
-        cls.sale_order.pricelist_id.currency_id = cls.currency_euro_id
+        cls.pricelist.currency_id = cls.currency_euro_id
         cls.env["res.currency.rate"].create(
             {
                 "name": fields.Date.today(),
@@ -59,10 +59,10 @@ class TestAmountMulticompanyReportingCurrency(TestSaleCommon):
                 "name": self.company_data["product_order_no"].name,
                 "product_id": self.company_data["product_order_no"].id,
                 "product_uom_qty": 2,
-                "product_uom": self.company_data["product_order_no"].uom_id.id,
+                "product_uom_id": self.company_data["product_order_no"].uom_id.id,
                 "price_unit": 500,
                 "order_id": self.sale_order.id,
-                "tax_id": False,
+                "tax_ids": [(6, 0, [])],
             }
         )
         self.assertAlmostEqual(
@@ -72,6 +72,7 @@ class TestAmountMulticompanyReportingCurrency(TestSaleCommon):
         self.env["res.config.settings"].create(
             {
                 "multicompany_reporting_currency": self.currency_euro_id,
+                "multicompany_reporting_amount": "total",
             }
         ).execute()
         self.sol_serv_deliver = self.env["sale.order.line"].create(
@@ -79,15 +80,30 @@ class TestAmountMulticompanyReportingCurrency(TestSaleCommon):
                 "name": self.company_data["product_service_delivery"].name,
                 "product_id": self.company_data["product_service_delivery"].id,
                 "product_uom_qty": 1,
-                "product_uom": self.company_data["product_service_delivery"].uom_id.id,
+                "product_uom_id": self.company_data["product_service_delivery"].uom_id.id,
                 "price_unit": 750,
                 "order_id": self.sale_order.id,
-                "tax_id": [(4, self.tax.id)],
+                "tax_ids": [(4, self.tax.id)],
             }
         )
         self.assertAlmostEqual(
             self.sale_order.amount_multicompany_reporting_currency, 1825
         )
+        self.env["res.config.settings"].create(
+            {
+                "multicompany_reporting_currency": self.currency_euro_id,
+                "multicompany_reporting_amount": "untaxed",
+            }
+        ).execute()
+        self.assertAlmostEqual(
+            self.sale_order.amount_multicompany_reporting_currency, 1750
+        )
+        self.env["res.config.settings"].create(
+            {
+                "multicompany_reporting_currency": self.currency_euro_id,
+                "multicompany_reporting_amount": "total",
+            }
+        ).execute()
         # if we remove Currency from Sale Order we expect
         # multicompany_reporting_currency_rate to be 1.0
         self.sale_order.currency_id = False

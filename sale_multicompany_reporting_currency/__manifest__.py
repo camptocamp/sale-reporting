@@ -3,7 +3,7 @@
 {
     "name": "Sale Multicompany Reporting Currency",
     "summary": "Adds Amount in multicompany reporting currency to Sale Order",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "category": "Sales",
     "author": "Camptocamp SA, Odoo Community Association (OCA)",
     "license": "AGPL-3",
