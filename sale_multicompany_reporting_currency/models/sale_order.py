@@ -6,27 +6,9 @@ from odoo.tools import float_is_zero
 
 
 class SaleOrder(models.Model):
-    _inherit = "sale.order"
+    _name = "sale.order"
+    _inherit = ["sale.order", "multicompany.reporting.currency.mixin"]
 
-    def _get_multicompany_reporting_currency_id(self):
-        multicompany_reporting_currency_parameter = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param(
-                "base_multicompany_reporting_currency.multicompany_reporting_currency"
-            )
-        )
-        return self.env["res.currency"].browse(
-            int(multicompany_reporting_currency_parameter)
-        )
-
-    multicompany_reporting_currency_id = fields.Many2one(
-        "res.currency",
-        compute="_compute_multicompany_reporting_currency_id",
-        readonly=True,
-        store=True,
-        default=_get_multicompany_reporting_currency_id,
-    )
     multicompany_reporting_currency_rate = fields.Float(
         compute="_compute_multicompany_reporting_currency_rate",
         store=True,
@@ -40,31 +22,26 @@ class SaleOrder(models.Model):
         readonly=True,
     )
 
-    @api.depends("pricelist_id.currency_id")
-    def _compute_multicompany_reporting_currency_id(self):
-        multicompany_reporting_currency_id = (
-            self._get_multicompany_reporting_currency_id()
-        )
-        for record in self:
-            record.multicompany_reporting_currency_id = (
-                multicompany_reporting_currency_id
-            )
-
     @api.depends(
         "pricelist_id", "date_order", "company_id", "multicompany_reporting_currency_id"
     )
     def _compute_multicompany_reporting_currency_rate(self):
-        # we don't use standard currency_rate field to avoid
-        # nested if-else conditions in _compute_currency_rate override
         for record in self:
-            if (
-                record.multicompany_reporting_currency_id and record.currency_id
+            if not record.company_id:
+                record.multicompany_reporting_currency_rate = (
+                    record.multicompany_reporting_currency_id.with_context(
+                        date=record.date_order
+                    ).rate
+                    or 1.0
+                )
+            elif (
+                record.currency_id and record.multicompany_reporting_currency_id
             ):  # the following crashes if any one is undefined
                 record.multicompany_reporting_currency_rate = self.env[
                     "res.currency"
                 ]._get_conversion_rate(
-                    record.multicompany_reporting_currency_id,
                     record.currency_id,
+                    record.multicompany_reporting_currency_id,
                     record.company_id,
                     record.date_order,
                 )
@@ -72,7 +49,9 @@ class SaleOrder(models.Model):
                 record.multicompany_reporting_currency_rate = 1.0
 
     @api.depends(
+        "amount_untaxed",
         "amount_total",
+        "company_id.multicompany_reporting_amount",
         "multicompany_reporting_currency_id",
         "multicompany_reporting_currency_rate",
     )
@@ -80,7 +59,7 @@ class SaleOrder(models.Model):
         for record in self:
             reporting_amount = (
                 record.amount_total
-                if (record.company_id.amount_option == "total")
+                if record.company_id.multicompany_reporting_amount == "total"
                 else record.amount_untaxed
             )
             if (
@@ -94,6 +73,6 @@ class SaleOrder(models.Model):
                 to_amount = reporting_amount
             else:
                 to_amount = (
-                    reporting_amount / record.multicompany_reporting_currency_rate
+                    reporting_amount * record.multicompany_reporting_currency_rate
                 )
             record.amount_multicompany_reporting_currency = to_amount

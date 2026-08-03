@@ -46,6 +46,15 @@
                             it is absolutely necessary.
                         </p>
                     </div>
+                    <div class="content-group">
+                        <div class="mt16">
+                            <field
+                                name="multicompany_reporting_amount"
+                                widget="radio"
+                                options="{'no_create': True}"
+                            />
+                        </div>
+                    </div>
                 </setting>
             </xpath>
         </field>

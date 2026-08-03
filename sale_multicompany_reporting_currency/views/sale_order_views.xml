@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="view_order_tree" model="ir.ui.view">
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_tree" />
@@ -28,7 +27,7 @@
             <field name="currency_id" position="after">
                 <field name="multicompany_reporting_currency_rate" />
             </field>
-            <xpath expr="//field[@name='tax_totals_json']" position="after">
+            <xpath expr="//field[@name='tax_totals']" position="after">
                 <label for="amount_multicompany_reporting_currency" />
                 <div class="text-nowrap">
                     <field name="multicompany_reporting_currency_id" invisible="1" />
@@ -63,5 +62,4 @@
             </field>
         </field>
     </record>
-
 </odoo>
