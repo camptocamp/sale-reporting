@@ -22,6 +22,16 @@ msgid ""
 msgstr ""
 
 #. module: base_multicompany_reporting_currency
+#: model:ir.model.fields.selection,name:base_multicompany_reporting_currency.selection__res_company__multicompany_reporting_amount__total
+msgid "Amount total"
+msgstr ""
+
+#. module: base_multicompany_reporting_currency
+#: model:ir.model,name:base_multicompany_reporting_currency.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: base_multicompany_reporting_currency
 #: model:ir.model,name:base_multicompany_reporting_currency.model_res_config_settings
 msgid "Config Settings"
 msgstr ""
@@ -48,6 +58,12 @@ msgid "Multicompany Reporting Currency"
 msgstr ""
 
 #. module: base_multicompany_reporting_currency
+#: model:ir.model.fields,field_description:base_multicompany_reporting_currency.field_res_company__multicompany_reporting_amount
+#: model:ir.model.fields,field_description:base_multicompany_reporting_currency.field_res_config_settings__multicompany_reporting_amount
+msgid "Multicompany Reporting Amount"
+msgstr ""
+
+#. module: base_multicompany_reporting_currency
 #: model:ir.model,name:base_multicompany_reporting_currency.model_multicompany_reporting_currency_mixin
 msgid "Multicompany Reporting Currency Mixin"
 msgstr ""
@@ -60,4 +76,9 @@ msgstr ""
 #. module: base_multicompany_reporting_currency
 #: model:ir.model,name:base_multicompany_reporting_currency.model_ir_config_parameter
 msgid "System Parameter"
+msgstr ""
+
+#. module: base_multicompany_reporting_currency
+#: model:ir.model.fields.selection,name:base_multicompany_reporting_currency.selection__res_company__multicompany_reporting_amount__untaxed
+msgid "Untaxed Amount"
 msgstr ""
